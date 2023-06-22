@@ -80,9 +80,6 @@ Use git clone command or download ZIP folder
 - bundle install
 - sudo apt bundle install (for Linux)
 ```
-### Deployment
-
-Not yet deployed ...
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 👥 Authors <a name="authors"></a>
