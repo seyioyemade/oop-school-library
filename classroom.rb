@@ -12,8 +12,7 @@ class Classroom
   end
 end
 
-
-ss2 = Classroom.new("ss2")
+ss2 = Classroom.new('ss2')
 ss2.add_student('Seyi')
 
 puts ss2.students.inspect
