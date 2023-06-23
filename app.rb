@@ -63,7 +63,7 @@ class App
       puts "Age: #{person.age}"
 
       if person.instance_of?(Teacher)
-        puts "Specialization: [#{person.specialization}]"
+        puts "Specialization: #{person.specialization}"
       else
         puts "Permission: #{person.parent_permission}"
       end
