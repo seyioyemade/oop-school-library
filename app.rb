@@ -60,6 +60,7 @@ class App
       puts ''
       puts "[#{person.class}]"
       puts "Name: #{person.name}"
+      puts "ID: #{person.id}"
       puts "Age: #{person.age}"
 
       if person.instance_of?(Teacher)
