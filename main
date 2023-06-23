@@ -14,21 +14,19 @@ def list_options
 end
 
 def options(option, app)
-  case option
-  when 1
-    add_book(app)
-  when 2
-    list_books(app)
-  when 3
-    add_person(app)
-  when 4
-    list_people(app)
-  when 5
-    add_rental(app)
-  when 6
-    list_rentals(app)
-  when 7
-    exit
+  actions = {
+    1 => method(:add_book),
+    2 => method(:list_books),
+    3 => method(:add_person),
+    4 => method(:list_people),
+    5 => method(:add_rental),
+    6 => method(:list_rentals),
+    7 => method(:exit_option)
+  }
+
+  action = actions[option]
+  if action
+    action.call(app)
   else
     puts 'Invalid selection'
   end
@@ -58,6 +56,10 @@ end
 
 def list_rentals(app)
   app.list_all_rentals
+end
+
+def exit_option(_app)
+  exit
 end
 
 def main
