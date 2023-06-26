@@ -91,6 +91,12 @@ Use git clone command or download ZIP folder
 - LinkedIn: [Seyi Oyemade](https://www.linkedin.com/in/seyi-oyemade)
 
 
+:bust_in_silhouette: **Harriet Oteng**
+- GitHub: [@githubhandle](https://github.com/newhoteng)
+- Twitter: [@twitterhandle](https://twitter.com/HarrietOteng1)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/harriet-oteng/)
+
+
 <!-- FUTURE FEATURES -->
 
 ## :telescope: Future Features <a name="future-features"></a><br/>
