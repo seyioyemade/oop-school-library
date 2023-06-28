@@ -4,6 +4,7 @@ require_relative 'app_logic'
 
 def main
   app = App.new
+  app.load_data
   app_logic = AppLogic.new
   puts "Welcome to the School Library App!\n\n"
 
@@ -18,6 +19,9 @@ def main
       7 - Exit
     '
     option = gets.chomp.to_i
+    app.save_books
+    app.save_people
+    app.save_rentals
     app_logic.options(option, app)
   end
 end

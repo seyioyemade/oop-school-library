@@ -3,15 +3,53 @@ require_relative 'book'
 require_relative 'student'
 require_relative 'teacher'
 require_relative 'rental'
+require 'json'
 
 class App
   attr_accessor :person, :books, :rentals
 
   def initialize()
-    @person = []
+    @people = []
     @books = []
     @rentals = []
   end
+  # Load data from database
+
+  def fetch_data(file)
+    if File.exist?("data/#{file}.json")
+      File.read("data/#{file}.json")
+    else
+      empty_json = [].to_json
+      File.write("data/#{file}.json", empty_json)
+      empty_json
+    end
+  end
+
+  def load_data
+    books = JSON.parse(fetch_data('books'))
+    people = JSON.parse(fetch_data('people'))
+    rentals = JSON.parse(fetch_data('rentals'))
+
+    books.each do |book|
+      @books << Book.new(book['title'], book['author'])
+    end
+
+    people.each do |person|
+      @people << if person['class'] == 'Teacher'
+                   Teacher.new(person['age'], person['specialization'], person['name'])
+                 else
+                   Student.new(person['age'], 1, person['parent_permission'], person['name'])
+                 end
+    end
+
+    rentals.each do |rental|
+      rentee = @people.select { |person| person.name == rental['person_name'] }
+      rented_book = @books.select { |book| book.title == rental['book_titles'] }
+      @rentals << Rental.new(rental['date'], rented_book[0], rentee[0])
+    end
+  end
+
+  # UIs
 
   def create_book
     puts ''
@@ -41,14 +79,14 @@ class App
     when 1
       print 'Does student have parent permission [Y/N]: '
       permission = gets.chomp.downcase == 'y'
-      student = Student.new(1, age, permission, name)
-      @person << student
+      student = Student.new(age, 1, permission, name)
+      @people << student
 
     when 2
       print 'What is the teachers specialization: '
       specialization = gets.chomp
       teacher = Teacher.new(age, specialization, name)
-      @person << teacher
+      @people << teacher
     end
 
     print 'Success'
@@ -56,7 +94,7 @@ class App
 
   def list_all_people
     puts ''
-    @person.each do |person|
+    @people.each do |person|
       puts ''
       puts "[#{person.class}]"
       puts "Name: #{person.name}"
@@ -81,7 +119,7 @@ class App
     puts ''
 
     puts 'Select a person from below by number : '
-    @person.each_with_index do |person, index|
+    @people.each_with_index do |person, index|
       puts "(#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     puts ''
@@ -91,7 +129,7 @@ class App
     print 'Date(yyyy/mm/dd): '
     date = gets.chomp
 
-    rental = Rental.new(date, @books[book_num], @person[person_num])
+    rental = Rental.new(date, @books[book_num], @people[person_num])
     @rentals << rental
     puts ''
     puts 'Success'
@@ -117,5 +155,40 @@ class App
         puts 'Person does not exist'
       end
     end
+  end
+
+  # Save to database
+  def save_books
+    updated_books = []
+    @books.each do |book|
+      updated_books << { 'title' => book.title, 'author' => book.author }
+    end
+    File.write('data/books.json', JSON.pretty_generate(updated_books))
+  end
+
+  def save_people
+    updated_people = []
+    @people.each do |person|
+      if person.instance_of?(::Teacher)
+        updated_people << { 'class' => 'Teacher', 'id' => person.id, 'name' => person.name, 'age' => person.age,
+                            'specialization' => person.specialization }
+      elsif person.instance_of?(::Student)
+        updated_people << { 'class' => 'Student', 'id' => person.id, 'name' => person.name, 'age' => person.age,
+                            'parent_permission' => person.parent_permission }
+      end
+    end
+
+    File.write('data/people.json', JSON.pretty_generate(updated_people))
+  end
+
+  def save_rentals
+    updated_rentals = []
+
+    @rentals.each do |rental|
+      updated_rentals << { 'person_name' => rental.person.name, 'book_titles' => rental.book.title,
+                           'date' => rental.date }
+    end
+
+    File.write('data/rentals.json', JSON.pretty_generate(updated_rentals))
   end
 end
