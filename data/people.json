@@ -1,9 +1,37 @@
 [
   {
     "class": "Student",
-    "id": 103,
-    "name": "dsf",
-    "age": 42,
+    "id": 697,
+    "name": "Rose",
+    "age": 17,
+    "parent_permission": false
+  },
+  {
+    "class": "Teacher",
+    "id": 378,
+    "name": "Doctor",
+    "age": 845,
+    "specialization": "Time travel"
+  },
+  {
+    "class": "Student",
+    "id": 803,
+    "name": "Yaa",
+    "age": 4,
+    "parent_permission": false
+  },
+  {
+    "class": "Teacher",
+    "id": 191,
+    "name": "Sey",
+    "age": 34,
+    "specialization": "Math"
+  },
+  {
+    "class": "Student",
+    "id": 553,
+    "name": "reader",
+    "age": 43,
     "parent_permission": true
   }
 ]
