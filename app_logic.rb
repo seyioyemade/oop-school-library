@@ -18,4 +18,16 @@ class AppLogic
       puts 'Invalid selection'
     end
   end
+
+  def menu
+    puts '
+      1 - Add a book
+      2 - Show all books
+      3 - Add a person
+      4 - Show all people
+      5 - Add a rental
+      6 - Show all rentals for a given ID
+      7 - Exit
+    '
+  end
 end
